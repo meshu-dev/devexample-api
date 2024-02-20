@@ -3,14 +3,13 @@
 namespace App\Services;
 
 use App\Models\GuestUser;
-use App\Repositories\{BookmarkRepository, BookmarkCategoryRepository};
+use App\Repositories\BookmarkRepository;
 use Illuminate\Http\File;
 
 class BookmarkService
 {
     public function __construct(
-        protected BookmarkRepository $bookmarkRepository,
-        protected BookmarkCategoryRepository $bookmarkCategoryRepository
+        protected BookmarkRepository $bookmarkRepository
     ) {
     }
 
@@ -18,38 +17,15 @@ class BookmarkService
     {
         $data = $this->getBookmarkResources();
 
-        $bookmarkCategories = $data['bookmark_categories'];
         $bookmarks = $data['bookmarks'];
-
-        $userBookmarkCategories = $this->createUserBookmarkCategories($guestUser, $bookmarkCategories);
-        $this->createUserBookmarks($guestUser, $bookmarks, $userBookmarkCategories);
+        $this->createUserBookmarks($guestUser, $bookmarks);
     }
 
-    protected function createUserBookmarkCategories(GuestUser $guestUser, array $bookmarkCategories): array
-    {
-        $userBookmarkCategories = [];
-
-        foreach ($bookmarkCategories as $bookmarkCategory) {
-            $type = $bookmarkCategory['type'];
-
-            $userBookmarkCategory = $this->bookmarkCategoryRepository->add([
-                'guest_user_id' => $guestUser->id,
-                'name' => $bookmarkCategory['name']
-            ]);
-
-            $userBookmarkCategories[$type] = $userBookmarkCategory;
-        }
-        return $userBookmarkCategories;
-    }
-
-    protected function createUserBookmarks(GuestUser $guestUser, array $bookmarks, array $userBookmarkCategories)
+    protected function createUserBookmarks(GuestUser $guestUser, array $bookmarks)
     {
         foreach ($bookmarks as $bookmark) {
-            $userBookmarkCategory = $userBookmarkCategories[$bookmark['type']];
-
             $this->bookmarkRepository->add([
                 'guest_user_id' => $guestUser->id,
-                'bookmark_category_id' => $userBookmarkCategory->id,
                 'name' => $bookmark['name'],
                 'url' => $bookmark['url']
             ]);

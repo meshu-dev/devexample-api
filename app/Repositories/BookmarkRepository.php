@@ -12,7 +12,7 @@ class BookmarkRepository
         return Bookmark::where('guest_user_id', $params['guest_user_id'])->get();
     }
 
-    public function get(int $guestUserId, int $id): Collection
+    public function get(int $guestUserId, int $id): Bookmark|null
     {
         return Bookmark::where('guest_user_id', $guestUserId)
                        ->where('id', $id)
@@ -22,5 +22,19 @@ class BookmarkRepository
     public function add(array $params): Bookmark
     {
         return Bookmark::create($params);
+    }
+
+    public function edit(int $id, array $params): int
+    {
+        return Bookmark::where('guest_user_id', $params['guest_user_id'])
+                       ->where('id', $id)
+                       ->update($params);
+    }
+
+    public function delete(int $guestUserId, int $id): bool
+    {
+        return Bookmark::where('guest_user_id', $guestUserId)
+                       ->where('id', $id)
+                       ->delete();
     }
 }

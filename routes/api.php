@@ -7,9 +7,9 @@ use App\Http\Middleware\GuestUser;
 
 use App\Http\Controllers\{
     BookmarkController,
-    BookmarkCategoryController,
     SiteCategoryController,
-    SiteController
+    SiteController,
+    StatusController
 };
 
 /*
@@ -34,7 +34,12 @@ Route::group(['prefix' => 'devsites'], function ($router) {
 
 Route::middleware([GuestUser::class])->group(function () {
     Route::group(['prefix' => 'bookmarks'], function ($router) {
-        Route::get('/categories', [BookmarkCategoryController::class, 'getAll']);
-        Route::get('/', [BookmarkController::class, 'getAll']);
+        Route::get('/',        [BookmarkController::class, 'getAll']);
+        Route::get('/{id}',    [BookmarkController::class, 'get']);
+        Route::post('/',       [BookmarkController::class, 'add']);
+        Route::put('/{id}',    [BookmarkController::class, 'edit']);
+        Route::delete('/{id}', [BookmarkController::class, 'delete']);
     });
+
+    Route::get('/me', [StatusController::class, 'getCurrentGuestUser']);
 });
