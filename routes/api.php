@@ -3,7 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Middleware\GuestUser;
+
 use App\Http\Controllers\{
+    BookmarkController,
+    BookmarkCategoryController,
     SiteCategoryController,
     SiteController
 };
@@ -23,8 +27,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::group(['prefix' => 'devsites'], function ($router) {
     Route::get('/categories', [SiteCategoryController::class, 'getAll']);
     Route::get('/', [SiteController::class, 'getAllSites']);
+});
+
+Route::middleware([GuestUser::class])->group(function () {
+    Route::group(['prefix' => 'bookmarks'], function ($router) {
+        Route::get('/categories', [BookmarkCategoryController::class, 'getAll']);
+        Route::get('/', [BookmarkController::class, 'getAll']);
+    });
 });
