@@ -4,5 +4,5 @@ namespace App\Enums;
 
 enum GuestUserEnum: int
 {
-    case LIMIT = 1000;
+    case MAX_REQUEST_LIMIT = 1000;
 }

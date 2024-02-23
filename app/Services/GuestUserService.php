@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
+use App\Enums\GuestUserEnum;
+use App\Exceptions\MaxRequestLimitException;
 use App\Models\GuestUser;
 use App\Repositories\GuestUserRepository;
 
@@ -16,7 +17,7 @@ class GuestUserService
 
     public function createAccount(string $ipAddress): GuestUser
     {
-        $guestUser = $this->guestUserRepository->add(['ip_address' => $ipAddress, 'requests' => 1]);
+        $guestUser = $this->guestUserRepository->add(['ip_address' => $ipAddress]);
 
         $this->bookmarkService->createBookmarks($guestUser);
 
@@ -28,6 +29,11 @@ class GuestUserService
         $guestUser = $this->guestUserRepository->getByIpAddress($ipAddress);
 
         if ($guestUser) {
+            throw_if(
+                $guestUser->requests >= GuestUserEnum::MAX_REQUEST_LIMIT->value,
+                MaxRequestLimitException::class
+            );
+
             $guestUser->increment('requests');
             $guestUser->save();
         } else {

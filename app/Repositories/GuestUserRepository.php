@@ -8,6 +8,7 @@ class GuestUserRepository
 {
     public function add(array $params): GuestUser
     {
+        $params['requests'] = 1;
         return GuestUser::create($params);
     }
 

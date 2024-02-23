@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BookmarkResource;
+use App\Http\Requests\BookmarkRequest;
 use App\Repositories\BookmarkRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -29,7 +30,7 @@ class BookmarkController extends Controller
         return new BookmarkResource($bookmark);
     }
 
-    public function add(Request $request): BookmarkResource
+    public function add(BookmarkRequest $request): BookmarkResource
     {
         $params = $request->all();
         $params['guest_user_id'] = $request->user()->id;
@@ -39,7 +40,7 @@ class BookmarkController extends Controller
         return new BookmarkResource($bookmark);
     }
 
-    public function edit(Request $request, int $id): BookmarkResource
+    public function edit(BookmarkRequest $request, int $id): BookmarkResource
     {
         $params = $request->all();
         $params['guest_user_id'] = $request->user()->id;
