@@ -6,6 +6,7 @@ use App\Enums\GuestUserEnum;
 use App\Exceptions\MaxRequestLimitException;
 use App\Models\GuestUser;
 use App\Repositories\GuestUserRepository;
+use Carbon\CarbonImmutable;
 
 class GuestUserService
 {
@@ -40,5 +41,19 @@ class GuestUserService
             $guestUser = $this->createAccount($ipAddress);
         }
         return $guestUser;
+    }
+
+    public function deleteExpiredAccounts(): array
+    {
+        $expiryTime     = CarbonImmutable::now()->subHours(GuestUserEnum::ACCOUNT_TIME_LIMIT->value);
+        $expiredUsers   = $this->guestUserRepository->getExpired($expiryTime);
+        $deletedUserIds = [];
+
+        foreach ($expiredUsers as $expiredUser) {
+            $this->bookmarkService->deleteUserBookmarks($expiredUser->id);
+            $this->guestUserRepository->delete($expiredUser->id);
+            $deletedUserIds[] = $expiredUser->id;
+        }
+        return $deletedUserIds;
     }
 }

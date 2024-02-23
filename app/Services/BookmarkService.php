@@ -39,4 +39,9 @@ class BookmarkService
 
         return json_validate($json) ? json_decode($json, true) : null;
     }
+
+    public function deleteUserBookmarks(int $guestUserId): bool
+    {
+        return $this->bookmarkRepository->deleteByGuestId($guestUserId);
+    }
 }

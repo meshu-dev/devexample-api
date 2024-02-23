@@ -37,4 +37,10 @@ class BookmarkRepository
                        ->where('id', $id)
                        ->delete();
     }
+
+    public function deleteByGuestId(int $guestUserId): bool
+    {
+        return Bookmark::where('guest_user_id', $guestUserId)
+                       ->delete();
+    }
 }
