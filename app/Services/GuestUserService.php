@@ -12,7 +12,7 @@ class GuestUserService
 {
     public function __construct(
         protected GuestUserRepository $guestUserRepository,
-        protected BookmarkService $bookmarkService
+        protected CountryService $countryService
     ) {
     }
 
@@ -20,7 +20,7 @@ class GuestUserService
     {
         $guestUser = $this->guestUserRepository->add(['ip_address' => $ipAddress]);
 
-        $this->bookmarkService->createBookmarks($guestUser);
+        $this->countryService->create($guestUser->id);
 
         return $guestUser;
     }
@@ -50,7 +50,7 @@ class GuestUserService
         $deletedUserIds = [];
 
         foreach ($expiredUsers as $expiredUser) {
-            $this->bookmarkService->deleteUserBookmarks($expiredUser->id);
+            $this->countryService->delete($expiredUser->id);
             $this->guestUserRepository->delete($expiredUser->id);
             $deletedUserIds[] = $expiredUser->id;
         }

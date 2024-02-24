@@ -16,7 +16,7 @@ class GuestUser extends Authenticatable
     protected function requestsLeft(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => GuestUserEnum::LIMIT->value - $attributes['requests'],
+            get: fn (mixed $value, array $attributes) => GuestUserEnum::MAX_REQUEST_LIMIT->value - $attributes['requests'],
         )->withoutObjectCaching();
     }
 }

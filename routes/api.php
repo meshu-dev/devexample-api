@@ -7,6 +7,7 @@ use App\Http\Middleware\GuestUser;
 
 use App\Http\Controllers\{
     BookmarkController,
+    CountryController,
     SiteCategoryController,
     SiteController,
     StatusController
@@ -39,6 +40,14 @@ Route::middleware([GuestUser::class])->group(function () {
         Route::post('/',       [BookmarkController::class, 'add']);
         Route::put('/{id}',    [BookmarkController::class, 'edit']);
         Route::delete('/{id}', [BookmarkController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'countries'], function ($router) {
+        Route::get('/',        [CountryController::class, 'getAll']);
+        Route::get('/{id}',    [CountryController::class, 'get']);
+        Route::post('/',       [CountryController::class, 'add']);
+        Route::put('/{id}',    [CountryController::class, 'edit']);
+        Route::delete('/{id}', [CountryController::class, 'delete']);
     });
 
     Route::get('/me', [StatusController::class, 'getCurrentGuestUser']);
