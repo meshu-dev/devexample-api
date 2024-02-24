@@ -30,7 +30,10 @@ class GuestDataController
     {
         $bookmark = $this->guestDataRepository->get($request->user()->id, $id);
 
-        return new $this->jsonResourceClass($bookmark);
+        if ($bookmark) {
+            return new $this->jsonResourceClass($bookmark);
+        }
+        return response()->json(['error' => 'Country not found'], 404);
     }
 
     public function add(ApiRequest $request): JsonResource

@@ -27,10 +27,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'devsites'], function ($router) {
+Route::group(['prefix' => 'devsites'], function () {
     Route::get('/categories', [SiteCategoryController::class, 'getAll']);
     Route::get('/', [SiteController::class, 'getAllSites']);
 });
+
+/*
+Route::group(['prefix' => 'projects'], function () {
+    Route::get('/', [SiteController::class, 'getAllSites']);
+}); */
 
 Route::middleware([GuestUser::class])->group(function () {
     Route::group(['prefix' => 'countries'], function () {
