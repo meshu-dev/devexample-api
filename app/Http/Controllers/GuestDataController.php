@@ -6,6 +6,7 @@ use App\Http\Requests\ApiRequest;
 use App\Repositories\GuestDataRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +27,7 @@ class GuestDataController
         return  $this->jsonResourceClass::collection($bookmarks);
     }
 
-    public function get(Request $request, int $id): JsonResource
+    public function get(Request $request, int $id): JsonResponse|JsonResource
     {
         $bookmark = $this->guestDataRepository->get($request->user()->id, $id);
 
