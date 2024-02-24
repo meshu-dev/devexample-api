@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\GuestUser;
 
 use App\Http\Controllers\{
-    BookmarkController,
     CountryController,
     SiteCategoryController,
     SiteController,
