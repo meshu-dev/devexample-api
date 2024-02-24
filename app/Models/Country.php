@@ -8,16 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Country extends Model
 {
     protected $table = 'countries';
-    protected $fillable = ['guest_user_id', 'continent_id', 'name'];
+    protected $fillable = ['guest_user_id', 'name'];
 
     public $timestamps = false;
-
-    /**
-     * Get the continent for the country.
-     */
-    /*
-    public function continent(): BelongsTo
-    {
-        return $this->belongsTo(Continent::class);
-    } */
 }

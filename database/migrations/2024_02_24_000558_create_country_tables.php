@@ -11,23 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        /*
-        Schema::create('continents', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('guest_user_id');
-            $table->string('name');
-
-            $table->foreign('guest_user_id')->references('id')->on('guest_users');
-        }); */
-
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('guest_user_id');
-            //$table->unsignedBigInteger('continent_id');
             $table->string('name');
 
             $table->foreign('guest_user_id')->references('id')->on('guest_users');
-            //$table->foreign('continent_id')->references('id')->on('continents');
         });
     }
 
@@ -36,7 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('continents');
-        //Schema::dropIfExists('countries');
+        Schema::dropIfExists('countries');
     }
 };

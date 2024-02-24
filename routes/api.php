@@ -34,15 +34,7 @@ Route::group(['prefix' => 'devsites'], function ($router) {
 });
 
 Route::middleware([GuestUser::class])->group(function () {
-    Route::group(['prefix' => 'bookmarks'], function ($router) {
-        Route::get('/',        [BookmarkController::class, 'getAll']);
-        Route::get('/{id}',    [BookmarkController::class, 'get']);
-        Route::post('/',       [BookmarkController::class, 'add']);
-        Route::put('/{id}',    [BookmarkController::class, 'edit']);
-        Route::delete('/{id}', [BookmarkController::class, 'delete']);
-    });
-
-    Route::group(['prefix' => 'countries'], function ($router) {
+    Route::group(['prefix' => 'countries'], function () {
         Route::get('/',        [CountryController::class, 'getAll']);
         Route::get('/{id}',    [CountryController::class, 'get']);
         Route::post('/',       [CountryController::class, 'add']);
