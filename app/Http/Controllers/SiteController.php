@@ -18,4 +18,10 @@ class SiteController extends Controller
         $sites  = $this->siteRepository->getAll($request->all());
         return SiteResource::collection($sites);
     }
+
+    public function getAllByCategory(int $categoryId): ResourceCollection
+    {
+        $sites  = $this->siteRepository->getAllByCategory($categoryId);
+        return SiteResource::collection($sites);
+    }
 }
