@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\SiteResource;
+use App\Repositories\SiteRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use App\Repositories\SiteRepository;
-use App\Http\Resources\SiteResource;
 
 class SiteController extends Controller
 {
     public function __construct(
         protected SiteRepository $siteRepository
-    ) { }
-    
+    ) {
+    }
+
     public function getAllSites(Request $request): ResourceCollection
     {
         $sites  = $this->siteRepository->getAll($request->all());

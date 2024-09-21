@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\SiteCategoryResource;
+use App\Repositories\SiteCategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use App\Repositories\SiteCategoryRepository;
-use App\Http\Resources\SiteCategoryResource;
 
 class SiteCategoryController extends Controller
 {
     public function __construct(
         protected SiteCategoryRepository $siteCategoryRepository
-    ) { }
-    
+    ) {
+    }
+
     public function getAll(Request $request): ResourceCollection
     {
         $siteCategories = $this->siteCategoryRepository->getAll();
